@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NOCX Directory IA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap" rel="stylesheet">
+
+
+  <style>
+    /* Reset & base */
+    /* Reset & base */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.4s, color 0.4s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body.light-mode {
+  background-color: #f9fafb;
+  color: #212529;
+}
+
+/* Container styling */
+.container-main {
+  max-width: 960px;
+  margin: 2rem auto 4rem;
+  padding: 0 1rem;
+  flex-grow: 1;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.logo {
+  max-width: 140px;
+  filter: drop-shadow(0 0 3px rgba(255 255 255 / 0.2));
+  margin-bottom: 1rem;
+  transition: filter 0.3s;
+}
+body.light-mode .logo {
+  filter: drop-shadow(0 0 3px rgba(0 0 0 / 0.1));
+}
+h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #00e6aa;
+  text-align: center;
+  text-shadow:
+    0 0 4px rgba(0, 230, 170, 0.6),
+    0 0 8px rgba(0, 230, 170, 0.4),
+    0 0 20px rgba(0, 230, 170, 0.2);
+  animation: subtleGlow 3s ease-in-out infinite alternate;
+  margin-bottom: 1.2rem;
+}
+
+@keyframes subtleGlow {
+  from {
+    text-shadow:
+      0 0 4px rgba(0, 230, 170, 0.6),
+      0 0 8px rgba(0, 230, 170, 0.4),
+      0 0 20px rgba(0, 230, 170, 0.2);
+  }
+  to {
+    text-shadow:
+      0 0 6px rgba(0, 230, 170, 0.8),
+      0 0 12px rgba(0, 230, 170, 0.6),
+      0 0 30px rgba(0, 230, 170, 0.4);
+  }
+  
+ 
+}
+
+/* Theme toggle */
+.theme-toggle {
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+  color: #20c997; /* verde acqua */
+  transition: color 0.3s;
+}
+.theme-toggle:hover {
+  color: #1ca784; /* verde acqua scuro */
+  text-decoration: underline;
+}
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+/* Search input */
+#search {
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 0 10px rgba(32, 201, 151, 0.25); /* verde acqua */
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  transition: background-color 0.3s, color 0.3s;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+body.light-mode #search {
+  background-color: #fff;
+  color: #212529;
+  box-shadow: 0 0 10px rgba(32, 201, 151, 0.3); /* verde acqua */
+  border: 1px solid #ced4da;
+}
+#search::placeholder {
+  color: #adb5bd;
+}
+
+/* Filters */
+.filters {
+  background-color: #1f1f1f;
+  border-radius: 0.8rem;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px rgba(32, 201, 151, 0.15); /* verde acqua */
+  user-select: none;
+  transition: background-color 0.3s;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+body.light-mode .filters {
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(32, 201, 151, 0.1); /* verde acqua */
+  border: 1px solid #b2d8cc; /* verde acqua chiaro */
+}
+.filter-group {
+  min-width: 180px;
+  flex-grow: 1;
+  max-width: 260px;
+}
+.filter-group strong {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 1.05rem;
+  color: #20c997; /* verde acqua */
+}
+body.light-mode .filter-group strong {
+  color: #1ca784; /* verde acqua scuro */
+}
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #ccc;
+  transition: color 0.3s;
+  user-select: none;
+}
+body.light-mode label {
+  color: #495057;
+}
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: #20c997; /* verde acqua */
+}
+
+/* Accordion styling */
+.accordion-button {
+  background-color: #1f1f1f;
+  color: #e0e0e0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.1);
+  border-radius: 0.6rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(32, 201, 151, 0.5); /* verde acqua */
+  outline: none;
+}
+.accordion-button:not(.collapsed) {
+  color: #20c997; /* verde acqua */
+  background-color: #292929;
+  box-shadow: inset 0 1px 0 rgba(32, 201, 151, 0.25); /* verde acqua */
+}
+body.light-mode .accordion-button {
+  background-color: #f8f9fa;
+  color: #212529;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+body.light-mode .accordion-button:not(.collapsed) {
+  background-color: #e9ecef;
+  color: #1ca784; /* verde acqua scuro */
+  box-shadow: inset 0 1px 0 rgba(32, 201, 151, 0.4); /* verde acqua */
+}
+
+.accordion-body {
+  background-color: #292929;
+  border-radius: 0 0 0.6rem 0.6rem;
+  color: #ddd;
+  font-size: 1rem;
+  line-height: 1.5;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+  transition: background-color 0.3s, color 0.3s;
+}
+body.light-mode .accordion-body {
+  background-color: #fff;
+  color: #212529;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+.accordion-body p {
+  margin-bottom: 0.8rem;
+}
+.accordion-body a {
+  color: #20c997; /* verde acqua */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+.accordion-body a:hover {
+  color: #1ca784; /* verde acqua scuro */
+  text-decoration: underline;
+}
+.accordion-body small a {
+  font-weight: normal;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+body.light-mode .accordion-body small a {
+  color: #495057;
+}
+
+/* Affidabilità stars */
+.stars {
+  color: #ffc107;
+  font-size: 1.15rem;
+  user-select: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 575px) {
+  .filters {
+    flex-direction: column;
+    padding: 1rem 1rem;
+  }
+  .filter-group {
+    max-width: 100%;
+    min-width: auto;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  #search {
+    max-width: 100%;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container-main">
+    <header>
+      <img src="Copia di Senza titolo.png" alt="Logo NOCX" class="logo" />
+      <h1>NOCX Directory IA</h1>
+    </header>
+    <div class="top-bar">
+      <span class="theme-toggle" role="button" aria-label="Toggle tema chiaro/scuro" tabindex="0" onclick="toggleTheme()">🌓 Modalità Chiara/Scura</span>
+    </div>
+    <input type="text" id="search" placeholder="🔍 Cerca un'IA..." aria-label="Cerca IA" autocomplete="off" />
+
+    <section class="filters" aria-label="Filtri di ricerca">
+      <div class="filter-group" role="group" aria-labelledby="categoria-label">
+        <strong id="categoria-label">Categoria</strong>
+        <label><input type="checkbox" class="filterCategory" value="Generale" /> Generale</label>
+        <label><input type="checkbox" class="filterCategory" value="Conversazione" /> Conversazione</label>
+        <label><input type="checkbox" class="filterCategory" value="Scrittura" /> Scrittura</label>
+        <label><input type="checkbox" class="filterCategory" value="Traduzione" /> Traduzione</label>
+        <label><input type="checkbox" class="filterCategory" value="Immagini" /> Immagini</label>
+        <label><input type="checkbox" class="filterCategory" value="Video" /> Video</label>
+        <label><input type="checkbox" class="filterCategory" value="Audio" /> Audio</label>
+        <label><input type="checkbox" class="filterCategory" value="Ricerca" /> Ricerca</label>
+        <label><input type="checkbox" class="filterCategory" value="Educazione" /> Educazione</label>
+        <label><input type="checkbox" class="filterCategory" value="Robotica" /> Robotica</label>
+        <label><input type="checkbox" class="filterCategory" value="Codice" /> Codice</label>
+        <label><input type="checkbox" class="filterCategory" value="Medicina" /> Medicina</label>
+        <label><input type="checkbox" class="filterCategory" value="Marketing" /> Marketing</label>
+        <label><input type="checkbox" class="filterCategory" value="Design" /> Design</label>
+        <label><input type="checkbox" class="filterCategory" value="Produttività" /> Produttività</label>
+        <label><input type="checkbox" class="filterCategory" value="Legale" /> Legale</label>
+        <label><input type="checkbox" class="filterCategory" value="Business" /> Business</label>
+        <label><input type="checkbox" class="filterCategory" value="Automazione" /> Automazione</label>
+      </div>
+
+      <div class="filter-group" role="group" aria-labelledby="accesso-label">
+        <strong id="accesso-label">Accesso</strong>
+        <label><input type="checkbox" class="filterAccess" value="Gratis" /> Gratis</label>
+        <label><input type="checkbox" class="filterAccess" value="Freemium" /> Freemium</label>
+        <label><input type="checkbox" class="filterAccess" value="A pagamento" /> A pagamento</label>
+      </div>
+
+      <div class="filter-group" role="group" aria-labelledby="affidabilita-label">
+        <strong id="affidabilita-label">Affidabilità</strong>
+        <label><input type="checkbox" class="filterAffidabilita" value="1" /> ★</label>
+        <label><input type="checkbox" class="filterAffidabilita" value="2" /> ★★</label>
+        <label><input type="checkbox" class="filterAffidabilita" value="3" /> ★★★</label>
+        <label><input type="checkbox" class="filterAffidabilita" value="4" /> ★★★★</label>
+        <label><input type="checkbox" class="filterAffidabilita" value="5" /> ★★★★★</label>
+      </div>
+    </section>
+
+    <div class="accordion" id="iaList" role="list"></div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+    }
+
+    const aiList = [
+      {name:"ChatGPT",category:"Generale",access:"Freemium",descrizione:"Assistente conversazionale basato su GPT-4.",url:"https://chat.openai.com/",affidabilita:5,fonte:"https://openai.com/chatgpt"},
+      {name:"Claude",category:"Conversazione",access:"Freemium",descrizione:"Assistant AI di Anthropic.",url:"https://claude.ai",affidabilita:4,fonte:"https://claude.ai"},
+      {name:"Bard",category:"Conversazione",access:"Gratis",descrizione:"Assistant AI di Google con risposte e capacità conversazionale.",url:"https://bard.google.com",affidabilita:4,fonte:"https://bard.google.com"},
+      {name:"YouChat",category:"Conversazione",access:"Gratis",descrizione:"Chatbot AI integrato con ricerca You.com.",url:"https://you.com",affidabilita:4,fonte:"https://you.com"},
+      {name:"Perplexity AI",category:"Ricerca",access:"Gratis",descrizione:"Motore di ricerca con contesto conversazionale.",url:"https://perplexity.ai",affidabilita:4,fonte:"https://perplexity.ai"},
+      {name:"WolframAlpha",category:"Ricerca",access:"Freemium",descrizione:"Motore computazionale e conoscenza.",url:"https://wolframalpha.com",affidabilita:5,fonte:"https://wolframalpha.com"},
+      {name:"Jasper AI",category:"Scrittura",access:"A pagamento",descrizione:"Writer AI per contenuti marketing.",url:"https://jasper.ai",affidabilita:4,fonte:"https://jasper.ai"},
+      {name:"Copy.ai",category:"Scrittura",access:"Freemium",descrizione:"Strumento AI per generare testi e copy.",url:"https://copy.ai",affidabilita:4,fonte:"https://copy.ai"},
+      {name:"Writesonic",category:"Scrittura",access:"Freemium",descrizione:"Creazione contenuti AI per blog, ads, ecc.",url:"https://writesonic.com",affidabilita:4,fonte:"https://writesonic.com"},
+      {name:"Grammarly",category:"Scrittura",access:"Freemium",descrizione:"Correttore e miglioratore testi AI.",url:"https://grammarly.com",affidabilita:5,fonte:"https://grammarly.com"},
+      {name:"Quillbot",category:"Scrittura",access:"Freemium",descrizione:"Riformulazione e sintesi testi AI.",url:"https://quillbot.com",affidabilita:4,fonte:"https://quillbot.com"},
+      {name:"Sudowrite",category:"Scrittura",access:"A pagamento",descrizione:"Assistant AI per scrittura creativa.",url:"https://sudowrite.com",affidabilita:4,fonte:"https://sudowrite.com"},
+      {name:"INK Editor",category:"Scrittura",access:"Freemium",descrizione:"SEO content AI tool.",url:"https://inkforall.com",affidabilita:4,fonte:"https://inkforall.com"},
+      {name:"Headline Studio",category:"Marketing",access:"Freemium",descrizione:"Generatore titoli SEO con IA di CoSchedule.",url:"https://coschedule.com/headline-studio",affidabilita:4,fonte:"https://coschedule.com/headline-studio"},
+      {name:"DeepL",category:"Traduzione",access:"Freemium",descrizione:"Traduzione automatica accurata con AI.",url:"https://deepl.com",affidabilita:5,fonte:"https://deepl.com"},
+      {name:"Google Translate",category:"Traduzione",access:"Gratis",descrizione:"Traduzione multi-lingua con AI Google.",url:"https://translate.google.com",affidabilita:5,fonte:"https://translate.google.com"},
+      {name:"Microsoft Translator",category:"Traduzione",access:"Gratis",descrizione:"Traduttore AI di Microsoft.",url:"https://translator.microsoft.com",affidabilita:4,fonte:"https://translator.microsoft.com"},
+      {name:"DALL·E",category:"Immagini",access:"Freemium",descrizione:"Generatore di immagini da testo (OpenAI).",url:"https://openai.com/dall-e",affidabilita:5,fonte:"https://openai.com/dall-e"},
+      {name:"Midjourney",category:"Immagini",access:"A pagamento",descrizione:"AI art generator usando Discord.",url:"https://midjourney.com",affidabilita:4,fonte:"https://midjourney.com/info"},
+      {name:"Stable Diffusion",category:"Immagini",access:"Gratis",descrizione:"AI open source per generazione immagini.",url:"https://huggingface.co/CompVis/stable-diffusion",affidabilita:5,fonte:"https://huggingface.co/CompVis/stable-diffusion"},
+      {name:"Leonardo AI",category:"Immagini",access:"Freemium",descrizione:"Piattaforma AI per arte e design.",url:"https://leonardo.ai",affidabilita:4,fonte:"https://leonardo.ai"},
+      {name:"Topaz Gigapixel AI",category:"Immagini",access:"A pagamento",descrizione:"AI per upscaling immagini.",url:"https://topazlabs.com/gigapixel-ai",affidabilita:5,fonte:"https://topazlabs.com/gigapixel-ai"},
+      {name:"Runway ML",category:"Video",access:"Freemium",descrizione:"Strumenti AI per editing video.",url:"https://runwayml.com",affidabilita:4,fonte:"https://runwayml.com"},
+      {name:"Synthesia",category:"Video",access:"A pagamento",descrizione:"Creazione video da testo con avatar.",url:"https://synthesia.io",affidabilita:4,fonte:"https://synthesia.io"},
+      {name:"Pictory",category:"Video",access:"Freemium",descrizione:"Video generator da testi e articoli.",url:"https://pictory.ai",affidabilita:4,fonte:"https://pictory.ai"},
+      {name:"Lumen5",category:"Video",access:"Freemium",descrizione:"Creazione video per social da testi.",url:"https://lumen5.com",affidabilita:4,fonte:"https://lumen5.com"},
+      {name:"Murf AI",category:"Audio",access:"Freemium",descrizione:"Voice-over AI realistiche.",url:"https://murf.ai",affidabilita:4,fonte:"https://murf.ai"},
+      {name:"ElevenLabs",category:"Audio",access:"Freemium",descrizione:"Sintesi vocale high‑fidelity.",url:"https://elevenlabs.io",affidabilita:5,fonte:"https://elevenlabs.io"},
+      {name:"Play.ht",category:"Audio",access:"Freemium",descrizione:"Voice synthesis AI per podcast.",url:"https://play.ht",affidabilita:4,fonte:"https://play.ht"},
+      {name:"Aiva",category:"Audio",access:"Freemium",descrizione:"Compositore musicale AI.",url:"https://aiva.ai",affidabilita:4,fonte:"https://aiva.ai"},
+      {name:"Otter.ai",category:"Audio",access:"Freemium",descrizione:"Trascrizione automatica conversazioni.",url:"https://otter.ai",affidabilita:4,fonte:"https://otter.ai"},
+      {name:"Descript",category:"Audio",access:"Freemium",descrizione:"Editing audio/video con trascrizione AI.",url:"https://descript.com",affidabilita:4,fonte:"https://descript.com"},
+      {name:"Speechify",category:"Audio",access:"Freemium",descrizione:"Testo in lettura vocale con AI.",url:"https://speechify.com",affidabilita:4,fonte:"https://speechify.com"},
+      {name:"Replika",category:"Conversazione",access:"Freemium",descrizione:"Chatbot AI per supporto emotivo.",url:"https://replika.ai",affidabilita:3,fonte:"https://replika.ai"},
+      {name:"AI Dungeon",category:"Conversazione",access:"Freemium",descrizione:"Storie interattive AI narrative.",url:"https://play.aidungeon.io",affidabilita:3,fonte:"https://aidungeon.io"},
+      {name:"Woebot",category:"Medicina",access:"Gratis",descrizione:"Chatbot AI per supporto psicologico.",url:"https://woebothealth.com",affidabilita:4,fonte:"https://woebothealth.com"},
+      {name:"Socratic by Google",category:"Educazione",access:"Gratis",descrizione:"AI per aiuto allo studio.",url:"https://socratic.org",affidabilita:4,fonte:"https://socratic.org"},
+      {name:"ChatSonic",category:"Conversazione",access:"Freemium",descrizione:"Chatbot AI aggiornato e migliorato.",url:"https://writesonic.com/chat",affidabilita:4,fonte:"https://writesonic.com/chat"},
+      {name:"Inferkit",category:"Scrittura",access:"Freemium",descrizione:"Generatore testuale AI flessibile.",url:"https://inferkit.com",affidabilita:3,fonte:"https://inferkit.com"},
+      {name:"Legal Robot",category:"Legale",access:"Freemium",descrizione:"Analisi documenti legali AI.",url:"https://legalrobot.com",affidabilita:3,fonte:"https://legalrobot.com"},
+      {name:"AlphaFold",category:"Medicina",access:"Gratis",descrizione:"Predizione proteica AI (DeepMind).",url:"https://alphafold.ebi.ac.uk",affidabilita:5,fonte:"https://alphafold.ebi.ac.uk"},
+      {name:"PathAI",category:"Medicina",access:"A pagamento",descrizione:"Diagnostica patologica AI.",url:"https://pathai.com",affidabilita:4,fonte:"https://pathai.com"},
+      {name:"Tesla Autopilot",category:"Robotica",access:"A pagamento",descrizione:"Guida autonoma AI Tesla.",url:"https://tesla.com/autopilot",affidabilita:5,fonte:"https://tesla.com/autopilot"},
+      {name:"Boston Dynamics",category:"Robotica",access:"A pagamento",descrizione:"Robotica avanzata AI.",url:"https://bostondynamics.com",affidabilita:5,fonte:"https://bostondynamics.com"},
+      {name:"IBM Watson",category:"Generale",access:"A pagamento",descrizione:"Piattaforma AI per imprese.",url:"https://ibm.com/watson",affidabilita:5,fonte:"https://ibm.com/watson"},
+      {name:"Hugging Face",category:"Ricerca",access:"Gratis",descrizione:"Modelli AI open source & comunità.",url:"https://huggingface.co",affidabilita:5,fonte:"https://huggingface.co"},
+      {name:"OpenAI Codex",category:"Codice",access:"Freemium",descrizione:"Generazione di codice AI da testo.",url:"https://openai.com/blog/openai-codex",affidabilita:5,fonte:"https://openai.com/blog/openai-codex"},
+      {name:"GitHub Copilot",category:"Codice",access:"A pagamento",descrizione:"Completamento automatico AI per programmatori.",url:"https://copilot.github.com/",affidabilita:5,fonte:"https://copilot.github.com"},
+      {name:"Tabnine",category:"Codice",access:"Freemium",descrizione:"Assistente codice AI cross-editor.",url:"https://tabnine.com",affidabilita:4,fonte:"https://tabnine.com"},
+      {name:"Codeium",category:"Codice",access:"Gratis",descrizione:"Alternativa gratuita per completamento codice AI.",url:"https://codeium.com",affidabilita:4,fonte:"https://codeium.com"},
+      {name:"Krisp",category:"Audio",access:"Freemium",descrizione:"Elimina rumori fondo audio con AI.",url:"https://krisp.ai",affidabilita:4,fonte:"https://krisp.ai"},
+      {name:"Descript",category:"Audio",access:"Freemium",descrizione:"Editing multimediale con AI + trascrizione.",url:"https://descript.com",affidabilita:4,fonte:"https://descript.com"},
+      {name:"Remove.bg",category:"Immagini",access:"Freemium",descrizione:"Rimozione sfondi da immagini via AI.",url:"https://remove.bg",affidabilita:4,fonte:"https://remove.bg"},
+      {name:"Let's Enhance",category:"Immagini",access:"Freemium",descrizione:"Upscaling immagini con AI.",url:"https://letsenhance.io",affidabilita:4,fonte:"https://letsenhance.io"},
+      {name:"Designs.ai",category:"Design",access:"Freemium",descrizione:"Suite AI per design e video marketing.",url:"https://designs.ai",affidabilita:4,fonte:"https://designs.ai"},
+      {name:"Scribe",category:"Produttività",access:"Freemium",descrizione:"Documentazione automatica AI.",url:"https://scribehow.com",affidabilita:4,fonte:"https://scribehow.com"},
+      {name:"Otter Assistant",category:"Audio",access:"Freemium",descrizione:"Trascrizioni e note per riunioni.",url:"https://otter.ai",affidabilita:4,fonte:"https://otter.ai"},
+      {name:"Rasa",category:"Conversazione",access:"Gratis",descrizione:"Piattaforma open-source per chatbot.",url:"https://rasa.com",affidabilita:4,fonte:"https://rasa.com"},
+      {name:"Dialogflow",category:"Conversazione",access:"Freemium",descrizione:"Costruzione di chatbot da Google Cloud.",url:"https://cloud.google.com/dialogflow",affidabilita:4,fonte:"https://cloud.google.com/dialogflow"},
+      {name:"Botpress",category:"Conversazione",access:"Gratis",descrizione:"Tool open-source per chatbot avanzati.",url:"https://botpress.com",affidabilita:4,fonte:"https://botpress.com"},
+      {name:"DataRobot",category:"Business",access:"A pagamento",descrizione:"Piattaforma enterprise per ML/AI.",url:"https://datarobot.com",affidabilita:5,fonte:"https://datarobot.com"},
+      {name:"Tableau AI",category:"Business",access:"A pagamento",descrizione:"Analisi dati con AI integrata in Tableau.",url:"https://tableau.com",affidabilita:5,fonte:"https://tableau.com"},
+      {name:"Google Analytics Intelligence",category:"Business",access:"Gratis",descrizione:"Insights guidati da AI per Analytics",url:"https://analytics.google.com",affidabilita:4,fonte:"https://analytics.google.com"},
+	  {name:"Gemini", category:"Generale", access:"Freemium", descrizione:"Modello AI multimodale di Google per conversazione, codice e creatività.", url:"https://gemini.google.com", affidabilita:4, fonte:"https://economictimes.indiatimes.com/gemini-smarter-io-2025"},
+	  {name:"Meta AI", category:"Conversazione", access:"Gratis", descrizione:"Chatbot AI di Meta integrato nei servizi social.", url:"https://meta.com/ai", affidabilita:4},
+      {name:"Poe", category:"Conversazione", access:"Freemium", descrizione:"Piattaforma che ospita chatbot multipli in una console unica.", url:"https://poe.com", affidabilita:4},
+	  {name:"Microsoft 365 Copilot", category:"Generale", access:"Freemium", descrizione:"assistente di intelligenza artificiale per il lavoro che consente di eseguire attività come brainstorming, scrittura, codifica e ricerca.", url:"https://copilot.microsoft.com/chats/hw5zgvNrDSNM5nkZQ365h", affidabilita:5},
+      {name:"Deepseek", category:"Generale", access:"Gratis", descrizione:"analizzare dati, generare report, creare presentazioni, etc.", url:"https://www.deepseek.com/", affidabilita:4},
+  // Ricerca / Informativa
+      {name:"Arc Search", category:"Ricerca", access:"Freemium", descrizione:"Motore di ricerca intelligente con interfaccia smarthome.", url:"https://arc.net", affidabilita:4},
+
+  // Scrittura / Produttività
+  
+      {name:"CommonGenie", category:"Scrittura", access:"Gratis", descrizione:"AI gratuita per scrittura SEO e contenuti brevi.", url:"https://commongenie.io", affidabilita:3},
+
+  // Voce / Audio
+      {name:"Lovo.ai", category:"Audio", access:"Freemium", descrizione:"Sintesi vocale AI realistica e personalizzabile.", url:"https://lovo.ai", affidabilita:4},
+      {name:"DeepAI", category:"Immagini", access:"Gratis", descrizione:"Varie API AI open‑source (testo, immagini).", url:"https://deepai.org", affidabilita:4},
+
+  // Video / Media
+      {name:"Adobe Firefly", category:"Immagini", access:"Freemium", descrizione:"Suite creativa generativa immagini/video da Adobe.", url:"https://firefly.adobe.com", affidabilita:4},
+      {name:"CapCut", category:"Video", access:"Gratis", descrizione:"Editor video mobile con AI per montaggio semplice.", url:"https://capcut.com", affidabilita:4},
+      {name:"DeepBrain AI", category:"Video", access:"Freemium", descrizione:"Avatar video realistici generati da testo.", url:"https://deepbrain.io", affidabilita:4},
+
+  // Produttività / Scheduling
+      {name:"Superhuman", category:"Produttività", access:"A pagamento", descrizione:"AI avanzata per email super‑veloci e inbox zero.", url:"https://superhuman.com", affidabilita:4},
+      {name:"Todoist AI", category:"Produttività", access:"Freemium", descrizione:"Task manager con suggerimenti AI.", url:"https://todoist.com", affidabilita:4},
+
+  // Business / Social
+      {name:"Canva", category:"Design", access:"Freemium", descrizione:"Design grafico assistito da AI (post, banner etc.)", url:"https://canva.com", affidabilita:5},
+      {name:"Clay", category:"Business", access:"Freemium", descrizione:"CRM intelligente con ricerca e arricchimento AI.", url:"https://clay.run", affidabilita:4},
+
+  // Automazione / RPA
+      {name:"UiPath", category:"Automazione", access:"Gratis", descrizione:"Piattaforma RPA per processi aziendali.", url:"https://uipath.com", affidabilita:5, fonte:"https://en.wikipedia.org/wiki/UiPath"},
+
+  // Sviluppo / Codice / ML
+  
+  
+      {name:"Raycast", category:"Produttività", access:"Gratis", descrizione:"Launcher produttivo avanzato per macOS.", url:"https://raycast.com", affidabilita:4, fonte:"https://en.wikipedia.org/wiki/Raycast_(software)"}
+     
+
+    ];
+
+    function updateList() {
+      const searchText = document.getElementById('search').value.toLowerCase();
+
+      const selectedCategories = Array.from(document.querySelectorAll('.filterCategory:checked')).map(el => el.value);
+      const selectedAccess = Array.from(document.querySelectorAll('.filterAccess:checked')).map(el => el.value);
+      const selectedAffidabilita = Array.from(document.querySelectorAll('.filterAffidabilita:checked')).map(el => el.value);
+
+      const container = document.getElementById('iaList');
+      container.innerHTML = '';
+
+      aiList.forEach(ai => {
+        if (!ai.name.toLowerCase().includes(searchText) && !ai.descrizione.toLowerCase().includes(searchText)) return;
+
+        if (selectedCategories.length > 0 && !selectedCategories.includes(ai.category)) return;
+
+        if (selectedAccess.length > 0 && !selectedAccess.includes(ai.access)) return;
+
+        if (selectedAffidabilita.length > 0 && !selectedAffidabilita.includes(String(ai.affidabilita))) return;
+
+        const safeId = ai.name.replace(/\s+/g, '-').toLowerCase();
+
+        const item = document.createElement('div');
+        item.className = 'accordion-item';
+        item.setAttribute('role', 'listitem');
+
+        item.innerHTML = `
+          <h2 class="accordion-header" id="heading-${safeId}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${safeId}" aria-expanded="false" aria-controls="collapse-${safeId}">
+              ${ai.name} 
+            </button>
+          </h2>
+          <div id="collapse-${safeId}" class="accordion-collapse collapse" aria-labelledby="heading-${safeId}" data-bs-parent="#iaList">
+            <div class="accordion-body">
+              <p>${ai.descrizione}</p>
+              <p><strong>Accesso:</strong> ${ai.access}</p>
+              <p><strong>Affidabilità:</strong> <span class="stars">${'★'.repeat(ai.affidabilita)}</span></p>
+              <p><a href="${ai.url}" target="_blank" rel="noopener noreferrer" aria-label="Vai al sito di ${ai.name}">Vai al sito 🌐</a></p>
+              ${ai.fonte ? ` </small></p>` : ''}
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+
+      // Se non ci sono risultati
+      if(container.childElementCount === 0){
+        container.innerHTML = '<p class="text-center fst-italic mt-4" style="color:#888;">Nessun risultato trovato.</p>';
+      }
+    }
+
+    document.getElementById('search').addEventListener('input', updateList);
+    document.querySelectorAll('.filterCategory, .filterAccess, .filterAffidabilita').forEach(el => {
+      el.addEventListener('change', updateList);
+    });
+
+    // Inizializza lista al caricamento
+    updateList();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
